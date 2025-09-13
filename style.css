@@ -1984,9 +1984,9 @@ body.light-theme .profile-frame {
     grid-template-columns: 1fr;
   }
 }
-  .social-links {
-    justify-content: center;
-  }
+
+.social-links {
+  justify-content: center;
 }
 
 /* Button Mobile Fixes */

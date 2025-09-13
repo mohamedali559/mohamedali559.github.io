@@ -2,22 +2,22 @@
 
 :root {
   /* Colors */
-  --primary-color: #5f32e7;
-  --primary-light: #9d75ff;
+  --primary-color: #9d75ff;
+  --primary-light: #b494ff;
   --text-color: #ffffff;
-  --text-color-dark: #040218;
-  --text-color-light: #868686;
-  --text-color-gray: #b9b4b4;
-  --background-color: #212121;
-  --card-bg: #ffffff;
-  --section-bg: #f8f9fa;
-  --border-color: #e0e0e0;
-  --input-bg: #ffffff;
+  --text-color-dark: #e6e6e6;
+  --text-color-light: #a0a0a0;
+  --text-color-gray: #cccccc;
+  --background-color: #0a0225;
+  --card-bg: #1a1a2e;
+  --section-bg: #0f0f1a;
+  --border-color: #2a2a3a;
+  --input-bg: #1a1a2e;
 
   /* Shadows */
-  --shadow-primary: 0 0 30px rgba(157, 117, 255, 0.3);
-  --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.05);
-  --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --shadow-primary: 0 0 30px rgba(157, 117, 255, 0.2);
+  --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.2);
+  --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.3);
 
   /* Transitions */
   --transition-speed: 0.3s;
@@ -28,19 +28,19 @@
   --border-radius-lg: 50px;
 }
 
-[data-theme="dark"] {
-  --primary-color: #9d75ff;
-  --primary-light: #b494ff;
-  --text-color: #ffffff;
-  --text-color-dark: #e6e6e6;
-  --text-color-light: #a0a0a0;
-  --text-color-gray: #cccccc;
-  --background-color: #121212;
-  --card-bg: #2d2d2d;
-  --section-bg: #1a1a1a;
-  --border-color: #404040;
-  --input-bg: #333333;
-  --shadow-primary: 0 0 30px rgba(157, 117, 255, 0.2);
+[data-theme="light"] {
+  --primary-color: #5f32e7;
+  --primary-light: #9d75ff;
+  --text-color: #212121;
+  --text-color-dark: #040218;
+  --text-color-light: #666666;
+  --text-color-gray: #888888;
+  --background-color: #ffffff;
+  --card-bg: #ffffff;
+  --section-bg: #f8f9fa;
+  --border-color: #e0e0e0;
+  --input-bg: #ffffff;
+  --shadow-primary: 0 0 30px rgba(157, 117, 255, 0.3);
 }
 
 * {
@@ -575,7 +575,7 @@ body.light-theme .profile-frame {
 /* Skills Section */
 .skills-section {
   padding: 80px 0;
-  background-color: cyan;
+  background-color: rgb(18, 1, 38);
 }
 
 .skills-container {
@@ -617,27 +617,37 @@ body.light-theme .profile-frame {
 .skill-card ul {
   list-style: none;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .skill-card ul li {
-  margin: 10px 0;
   color: var(--text-color-light);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  font-size: 0.9em;
 }
 
 .skill-card ul li i {
   font-size: 1.2em;
   color: var(--primary-color);
-  width: 25px;
-  text-align: center;
+  margin: 0;
+  width: auto;
+}
+
+@media (max-width: 360px) {
+  .skill-card ul {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Projects Section */
 .projects-section {
   padding: 80px 0;
-  background-color: var(--bg-color);
+  background-color: var(--section-bg);
 }
 
 .projects-container {
@@ -706,7 +716,7 @@ body.light-theme .profile-frame {
 /* Pricing Section */
 .pricing-section {
   padding: 80px 0;
-  background-color: #5f32e7;
+  background-color: #0a0225;
 }
 
 .pricing-container {
@@ -765,7 +775,7 @@ body.light-theme .profile-frame {
 /* Contact Section */
 .contact-section {
   padding: 80px 0;
-  background-color: var(--bg-color);
+  background-color: #040218;
 }
 
 .contact-container {
@@ -828,7 +838,48 @@ body.light-theme .profile-frame {
   border: 1px solid var(--border-color);
   background: var(--input-bg);
   color: var(--text-color);
-}
   background: var(--input-bg);
   color: var(--text-color);
+}
+
+/* Update section backgrounds */
+.skills-section {
+  background-color: var(--background-color);
+}
+
+.projects-section {
+  background-color: var(--section-bg);
+}
+
+.pricing-section {
+  background-color: var(--background-color);
+}
+
+.contact-section {
+  background-color: var(--section-bg);
+}
+
+.about-section {
+  background-color: var(--background-color);
+}
+
+/* Update text colors */
+.about-content h2 {
+  color: var(--text-color);
+}
+
+.about-content p {
+  color: var(--text-color-light);
+}
+
+.skill-card {
+  background: var(--card-bg);
+}
+
+.project-card {
+  background: var(--card-bg);
+}
+
+.pricing-card {
+  background: var(--card-bg);
 }

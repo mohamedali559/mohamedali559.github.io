@@ -622,6 +622,16 @@ body.light-theme .profile-frame {
 .skill-card ul li {
   margin: 10px 0;
   color: var(--text-color-light);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skill-card ul li i {
+  font-size: 1.2em;
+  color: var(--primary-color);
+  width: 25px;
+  text-align: center;
 }
 
 /* Projects Section */
@@ -638,18 +648,12 @@ body.light-theme .profile-frame {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
   margin-top: 40px;
 }
 
-@media (max-width: 992px) {
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .projects-grid {
     grid-template-columns: 1fr;
   }
@@ -660,11 +664,14 @@ body.light-theme .profile-frame {
   border-radius: var(--border-radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-medium);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card img {
   width: 100%;
-  height: 200px;
+  height: 250px;
   object-fit: cover;
 }
 
@@ -819,6 +826,9 @@ body.light-theme .profile-frame {
   padding: 15px;
   border-radius: var(--border-radius-sm);
   border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
+}
   background: var(--input-bg);
   color: var(--text-color);
 }

@@ -56,6 +56,7 @@
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  margin-bottom: 0;
 }
 
 nav {
@@ -126,6 +127,7 @@ nav:hover {
   align-items: center;
   padding: 0 100px;
   margin-top: 50px;
+  margin-bottom: 0;
 }
 
 .text-content {
@@ -450,6 +452,7 @@ body.light-theme .profile-frame {
 .tech-stack {
   padding: 5px 100px;
   margin-top: 20px;
+  margin-bottom: 0;
 }
 
 .tech-stack h2 {
@@ -516,8 +519,9 @@ body.light-theme .profile-frame {
 /* About Section Styles */
 .about-section {
   background-color: var(--section-bg);
-  padding: 100px 0;
+  padding: 80px 0;
   min-height: 100vh;
+  margin-top: 0;
 }
 
 .about-container {
@@ -989,6 +993,7 @@ body.light-theme .profile-frame {
 /* Add padding to body to account for fixed nav */
 body {
   padding-top: 90px;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
@@ -1222,6 +1227,12 @@ body {
   .content {
     margin-top: 20px;
     padding: 0 20px;
+    margin-bottom: 0;
+  }
+
+  .tech-stack {
+    padding: 5px 20px;
+    margin-bottom: 0;
   }
 
   .profile-frame {
@@ -1318,6 +1329,7 @@ body.light-theme .profile-frame {
 .tech-stack {
   padding: 5px 100px;
   margin-top: 20px;
+  margin-bottom: 0;
 }
 
 .tech-stack h2 {
@@ -1384,8 +1396,9 @@ body.light-theme .profile-frame {
 /* About Section Styles */
 .about-section {
   background-color: var(--section-bg);
-  padding: 100px 0;
+  padding: 80px 0;
   min-height: 100vh;
+  margin-top: 0;
 }
 
 .about-container {
@@ -1971,19 +1984,6 @@ body.light-theme .profile-frame {
     grid-template-columns: 1fr;
   }
 }
-/* Contact Mobile Enhanced */
-@media (max-width: 576px) {
-  .contact-content {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .contact-item {
-    flex-direction: column;
-    text-align: center;
-    gap: 8px;
-  }
-
   .social-links {
     justify-content: center;
   }

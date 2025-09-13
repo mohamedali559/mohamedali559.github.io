@@ -30,7 +30,7 @@ new FinisherHeader({
 
 // TypeWriter Effect
 class TypeWriter {
-  constructor(element, texts, speed = 100, deleteSpeed = 50, pauseTime = 2000) {
+  constructor(element, texts, speed = 150, deleteSpeed = 50, pauseTime = 1000) {
     this.element = element;
     this.texts = texts;
     this.speed = speed;
@@ -62,7 +62,7 @@ class TypeWriter {
     if (!this.isDeleting && this.charIndex === currentText.length) {
       typeSpeed = this.pauseTime;
       this.isDeleting = true;
-    } else if (this.isDeleting && this.charIndex === 0) {
+    } else if (this.isDeleting && this.charIndex === 1) {
       this.isDeleting = false;
       this.textIndex = (this.textIndex + 1) % this.texts.length;
     }

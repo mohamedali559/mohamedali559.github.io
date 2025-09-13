@@ -1,8 +1,8 @@
 new FinisherHeader({
-  count: 38,
+  count: 60,
   size: {
     min: 2,
-    max: 9,
+    max: 11,
     pulse: 0,
   },
   speed: {
@@ -22,10 +22,10 @@ new FinisherHeader({
   blending: "overlay",
   opacity: {
     center: 1,
-    edge: 0,
+    edge: 0.2,
   },
   skew: 0,
-  shapes: ["t", "c"],
+  shapes: ["t", "c", "s"],
 });
 
 // TypeWriter Effect

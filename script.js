@@ -28,111 +28,190 @@ new FinisherHeader({
   shapes: ["t", "c"],
 });
 
+// TypeWriter Effect
 class TypeWriter {
-  constructor(element, options = {}) {
+  constructor(element, texts, speed = 100, deleteSpeed = 50, pauseTime = 2000) {
     this.element = element;
-    this.words = JSON.parse(element.dataset.text);
-
-    this.settings = {
-      typingSpeed: options.typingSpeed || 120, // سرعة الكتابة
-      deletingSpeed: options.deletingSpeed || 60, // سرعة المسح
-      delayBeforeDelete: options.delayBeforeDelete || 1500, // تأخير قبل المسح
-      // delayBeforeTypingNext: options.delayBeforeTypingNext || 0, // تأخير قبل كتابة الجملة التالية
-      loop: options.loop !== undefined ? options.loop : true,
-      cursor: options.cursor !== undefined ? options.cursor : true,
-    };
-
-    this.txt = "";
-    this.wordIndex = 0;
+    this.texts = texts;
+    this.speed = speed;
+    this.deleteSpeed = deleteSpeed;
+    this.pauseTime = pauseTime;
+    this.textIndex = 0;
+    this.charIndex = 0;
     this.isDeleting = false;
-    this.isWaiting = false; // منع التنفيذ أثناء الانتظار
-    this.lastTime = 0;
+    this.init();
+  }
 
-    if (this.settings.cursor) {
-      this.addCursor();
-    }
-
+  init() {
     this.type();
   }
 
-  addCursor() {
-    const cursor = document.createElement("span");
-    cursor.classList.add("typewriter-cursor");
-    cursor.textContent = "|";
-    this.element.parentNode.insertBefore(cursor, this.element.nextSibling);
+  type() {
+    const currentText = this.texts[this.textIndex];
 
-    const style = document.createElement("style");
-    style.textContent = `
-      .typewriter-cursor {
-        display: inline-block;
-        margin-left: 2px;
-        animation: blink 0.7s infinite;
-      }
-      @keyframes blink {
-        0%, 50%, 100% { opacity: 1; }
-        25%, 75% { opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  type(timestamp = 0) {
-    const currentWord = this.words[this.wordIndex % this.words.length];
-    const speed = this.isDeleting
-      ? this.settings.deletingSpeed
-      : this.settings.typingSpeed;
-
-    if (timestamp - this.lastTime < speed) {
-      requestAnimationFrame((t) => this.type(t));
-      return;
-    }
-    this.lastTime = timestamp;
-
-    if (!this.isDeleting) {
-      // الكتابة
-      this.txt = currentWord.substring(0, this.txt.length + 1);
-      this.element.textContent = this.txt;
-
-      // لو الجملة خلصت
-      if (this.txt === currentWord && !this.isWaiting) {
-        this.isWaiting = true;
-        setTimeout(() => {
-          this.isDeleting = true;
-          this.isWaiting = false;
-        }, this.settings.delayBeforeDelete);
-      }
+    if (this.isDeleting) {
+      this.element.textContent = currentText.substring(0, this.charIndex - 1);
+      this.charIndex--;
     } else {
-      // المسح
-      this.txt = currentWord.substring(0, this.txt.length - 1);
-      this.element.textContent = this.txt;
-
-      // لو تم مسح الجملة بالكامل
-      if (this.txt === "B" || (this.txt === "F" && !this.isWaiting)) {
-        this.isWaiting = true;
-        setTimeout(() => {
-          this.isDeleting = false;
-          this.wordIndex++;
-          if (!this.settings.loop && this.wordIndex >= this.words.length)
-            return;
-          this.isWaiting = false;
-        }, this.settings.delayBeforeTypingNext);
-      }
+      this.element.textContent = currentText.substring(0, this.charIndex + 1);
+      this.charIndex++;
     }
 
-    requestAnimationFrame((t) => this.type(t));
+    let typeSpeed = this.isDeleting ? this.deleteSpeed : this.speed;
+
+    if (!this.isDeleting && this.charIndex === currentText.length) {
+      typeSpeed = this.pauseTime;
+      this.isDeleting = true;
+    } else if (this.isDeleting && this.charIndex === 0) {
+      this.isDeleting = false;
+      this.textIndex = (this.textIndex + 1) % this.texts.length;
+    }
+
+    setTimeout(() => this.type(), typeSpeed);
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const element = document.querySelector(".typewriter");
-  if (element) {
-    new TypeWriter(element, {
-      typingSpeed: 150,
-      deletingSpeed: 60,
-      delayBeforeDelete: 1000,
-      delayBeforeTypingNext: 0,
-      loop: true,
-      cursor: false,
+// Theme Toggle
+function initThemeToggle() {
+  const themeToggle = document.getElementById("theme-toggle");
+  const body = document.body;
+
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  body.classList.toggle("light-theme", savedTheme === "light");
+  themeToggle.checked = savedTheme === "light";
+
+  themeToggle.addEventListener("change", () => {
+    const isLight = themeToggle.checked;
+    body.classList.toggle("light-theme", isLight);
+    localStorage.setItem("theme", isLight ? "light" : "dark");
+  });
+}
+
+// Smooth Scrolling for Navigation
+function initSmoothScrolling() {
+  const navLinks = document.querySelectorAll('.navigation a[href^="#"]');
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute("href").substring(1);
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    });
+  });
+}
+
+// Active Navigation Link
+function initActiveNavigation() {
+  const sections = document.querySelectorAll("section[id], .header");
+  const navLinks = document.querySelectorAll(".navigation a");
+
+  function updateActiveLink() {
+    let current = "";
+
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+
+      if (window.scrollY >= sectionTop - 200) {
+        current = section.getAttribute("id") || "Home";
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === `#${current}`) {
+        link.classList.add("active");
+      }
     });
   }
+
+  window.addEventListener("scroll", updateActiveLink);
+  updateActiveLink(); // Initial call
+}
+
+// Contact Form Handler
+function initContactForm() {
+  const contactForm = document.querySelector(".contact-form");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Get form data
+      const formData = new FormData(contactForm);
+      const name =
+        formData.get("name") ||
+        contactForm.querySelector('input[type="text"]').value;
+      const email =
+        formData.get("email") ||
+        contactForm.querySelector('input[type="email"]').value;
+      const message =
+        formData.get("message") || contactForm.querySelector("textarea").value;
+
+      // Simple validation
+      if (!name || !email || !message) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      // Simulate form submission
+      alert("Thank you for your message! I will get back to you soon.");
+      contactForm.reset();
+    });
+  }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize TypeWriter effect
+  const typewriterElement = document.querySelector(".typewriter");
+  if (typewriterElement) {
+    const texts = JSON.parse(typewriterElement.getAttribute("data-text"));
+    new TypeWriter(typewriterElement, texts);
+  }
+
+  // Initialize other features
+  initThemeToggle();
+  initSmoothScrolling();
+  initActiveNavigation();
+  initContactForm();
 });
+
+// Add scroll animations
+function initScrollAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      }
+    });
+  }, observerOptions);
+
+  // Observe skill cards, project cards, etc.
+  const animatedElements = document.querySelectorAll(
+    ".skill-card, .project-card, .pricing-card, .stat-item"
+  );
+  animatedElements.forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(30px)";
+    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    observer.observe(el);
+  });
+}
+
+// Initialize scroll animations after a short delay
+setTimeout(initScrollAnimations, 100);
